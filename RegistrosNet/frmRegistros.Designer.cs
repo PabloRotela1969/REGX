@@ -488,13 +488,14 @@
             // 
             // txtPendiente
             // 
-            this.txtPendiente.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPendiente.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPendiente.Location = new System.Drawing.Point(0, 4);
             this.txtPendiente.Name = "txtPendiente";
             this.txtPendiente.Size = new System.Drawing.Size(1307, 181);
             this.txtPendiente.TabIndex = 29;
             this.txtPendiente.Text = "";
             this.txtPendiente.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.txtPendiente_LinkClicked);
+            this.txtPendiente.DoubleClick += new System.EventHandler(this.txtPendiente_DoubleClick);
             this.txtPendiente.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPendiente_KeyDown);
             // 
             // lblNotasDeArchivo

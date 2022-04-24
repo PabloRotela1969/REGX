@@ -64,6 +64,10 @@ namespace RegistrosNet
 
         private void CargarEntidad()
         {
+            te.IdTem = 0;
+            te.Estado = "";
+            te.Nombre = "";
+            te.FechaCambio = "";
             te.Nombre = txtTemas.Text;
             te.Estado = cmbEstado.Text;
         }
@@ -87,7 +91,7 @@ namespace RegistrosNet
         private void LimpiarCampos()
         {
             txtTemas.Text = "";
-            cmbEstado.SelectedIndex = 0;
+            cmbEstado.SelectedIndex = -1;
             te.IdTem = 0;
             te.Estado = "";
             te.Nombre = "";
@@ -185,13 +189,8 @@ namespace RegistrosNet
         {
             if (e.KeyChar == (char)Keys.Space )
             {
-                if (fila == 1)
-                {
-
-                    int f = fila;
-                    CargarCamposDesdeGrilla(f);
-                }
-
+                int f = fila;
+                CargarCamposDesdeGrilla(f);
             }
             if (e.KeyChar == (char)Keys.Escape)
             {

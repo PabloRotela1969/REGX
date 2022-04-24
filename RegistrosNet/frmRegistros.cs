@@ -17,7 +17,9 @@ namespace RegistrosNet
     public partial class frmRegistros : Form
     {
 
-
+        int ubicacion = 0;
+        int largo = 0;
+        string textoAbuscar = "";
         public frmRegistros()
         {
             InitializeComponent();
@@ -39,6 +41,7 @@ namespace RegistrosNet
         const string RegistrosModo = "MODO";
         const string RegistrosObjeto = "OBJETO";
         const string RegistrosAplicacion = "APLICACION";
+        private const string V = " ; ";
 
         #endregion
 
@@ -730,9 +733,40 @@ namespace RegistrosNet
             return Concatenacion;
         }
 
+
+        private void CambiarTextoDesdeClipboardParaNombreArchivo()
+        {
+            string cadenaDesdeClipboard = Clipboard.GetText();
+            if(cadenaDesdeClipboard != "")
+            {
+                this.Text = "REGISTRO DE EVENTOS ( proceso la clipboard )";
+                cadenaDesdeClipboard = cadenaDesdeClipboard.Replace(@"\", @"[").Replace(@"/", @"]").Replace(@":", @";").Replace(@"*", @"~").Replace('\'', '°');
+                cadenaDesdeClipboard = cadenaDesdeClipboard.Replace('<', '(').Replace('>', ')').Replace('-', '_').Replace('|', '!').Replace('"', '¡').Replace('+', '#').Replace("\n", "");
+                Clipboard.SetText(cadenaDesdeClipboard);
+            }
+        }
+
+
+
+        private void txtPendiente_DoubleClick(object sender, EventArgs e)
+        {
+            textoAbuscar = txtPendiente.SelectedText;
+            ubicacion = textoAbuscar.Length;
+            largo = ubicacion;
+            if(largo > 1)
+            {
+                this.Text = "REGISTRO DE EVENTOS (BUSCAR " + textoAbuscar + " )";
+            }
+            else
+            {
+                this.Text = "REGISTRO DE EVENTOS";
+            }
+        }
+
         private void txtPendiente_KeyDown(object sender, KeyEventArgs e)
         {
-
+            
+            
             switch (e.KeyCode)
             {
                 case Keys.F1:
@@ -752,14 +786,33 @@ namespace RegistrosNet
                 case Keys.End:
                     txtPendiente.SelectionBackColor = Color.White;
                     break;
+                case Keys.F5:
+                    if(largo > 0)
+                    {
+        
+                            ubicacion = this.txtPendiente.Find(textoAbuscar, (++ubicacion), txtPendiente.Text.Length, RichTextBoxFinds.None);
+                            if (ubicacion > -1)
+                            {
+
+                                txtPendiente.Select(ubicacion, largo);
+
+
+                            }
+
+
+ 
+                    }
+                    
+
+                    break;
                  case Keys.F11:
                     this.txtPendiente.Text = "_______________________________________________________________ULTIMOS TEMAS_________________________________________________________________________________\n" + ActualizarUltimos30TemasAPendiente() + txtPendiente.Text;
                     break;
-                case Keys.F5:
+                //case Keys.F5:
                     //int linea = txtPendiente.Find(txtPendiente.SelectedText,2,txtPendiente.TextLength,RichTextBoxFinds.WholeWord);
-                    ResaltarTexto(txtPendiente, txtPendiente.SelectedText, Color.Blue, false);
+                    //ResaltarTexto(txtPendiente, txtPendiente.SelectedText, Color.Blue, false);
 
-                    break;
+                  //  break;
                 case Keys.F6:
                     RestablecerColor(txtPendiente);
                     break;
@@ -953,10 +1006,7 @@ namespace RegistrosNet
                 
 
                 case Keys.F6:
-                    //frmDirectorioCombos dis = new frmDirectorioCombos( @"c:\regx\mails\");
-                    frmDirSeleccionarUnArchivo dis = new frmDirSeleccionarUnArchivo();
-                    
-                    rutasPnombre.Show(this);
+                    CambiarTextoDesdeClipboardParaNombreArchivo();
                     break;
                 case Keys.F11:
                     //f11
@@ -2450,7 +2500,6 @@ namespace RegistrosNet
         {
             System.Diagnostics.Process.Start(e.LinkText);
         }
-
 
 
     }
